@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	    {{>header}}
+</head>
+<body>
+	<main>
+	<h1>{{title}}</h1>
+    <div class = "signed-out" >
+    </div>
+    <div class = "signed-in" >
+       <a id="logout" href="/logout" class="btn btn-primary">
+            Sign out
+        </a>
+    </div>
+	</main>
+</body>
+</html>
