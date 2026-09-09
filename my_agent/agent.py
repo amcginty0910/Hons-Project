@@ -1,5 +1,22 @@
 from strands import Agent, tool
 from strands_tools import calculator, current_time
+from strands.models import BedrockModel
+import boto3
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+client = boto3.client(
+    's3',
+    aws_access_key_id= os.environ.get('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'),
+)
+model = BedrockModel(
+    model_id="anthropic.claude-v2",
+    region_name="us-east-1",
+    temperature=0.5,
+)
 
 # Define a custom tool as a Python function using the @tool decorator
 @tool
@@ -24,7 +41,7 @@ def letter_counter(word: str, letter: str) -> int:
 
 # Create an agent with tools from the community-driven strands-tools package
 # as well as our custom letter_counter tool
-agent = Agent(tools=[calculator, current_time, letter_counter])
+agent = Agent(model=model, tools=[calculator, current_time, letter_counter])
 
 # Ask the agent a question that uses the available tools
 message = """
